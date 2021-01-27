@@ -49,7 +49,7 @@ setup(
     url="https://github.com/apeworx/ape-tokens",
     include_package_data=True,
     python_requires=">=3.6, <4",
-    install_requires=["tokenlists<1.0"],
+    install_requires=["eth-brownie>=1.13.0,<2", "tokenlists<1.0"],
     extras_require=extras_require,
     py_modules=["ape_tokens"],
     license="Apache License 2.0",
