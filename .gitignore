@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# egg-related
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# pyenv
+.python-version
+
+# Coverage tests
+.coverage*
+.cache/
+.pytest_cache/
+htmlcov/
+coverage.xml
+
+# Other tools
+.mypy_cache/
+.hypothesis/

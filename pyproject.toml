@@ -1,0 +1,11 @@
+[tool.black]
+line-length = 100
+target-version = ['py36', 'py37', 'py38']
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = [
+    "setup.py",
+]
+tag_format = "$version"
