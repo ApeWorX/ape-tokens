@@ -64,6 +64,11 @@ setup(
         "eth-ape>=0.1.0a14,<0.2",
         "tokenlists",
     ],
+    entry_points={
+        "ape_cli_subcommands": [
+            "ape_tokens=ape_tokens._cli:cli",
+        ],
+    },
     extras_require=extras_require,
     py_modules=["ape_tokens"],
     license="Apache-2.0",
