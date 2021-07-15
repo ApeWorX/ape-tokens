@@ -1,21 +1,14 @@
 from decimal import Decimal
 
-import tokenlists  # type: ignore
 from ape.api import ConverterAPI
-from ape.api.contracts import ContractInstance
+from tokenlists import TokenInfo, TokenListManager  # type: ignore
+
+manager = TokenListManager()
 
 
-def get_token(symbol: str, chain_id: int = None) -> ContractInstance:
-    token_info = tokenlists.get_token_info(symbol, chain_id=chain_id)
-
-    from ape import Contract
-
-    token = Contract(token_info.address)
-
-    if not isinstance(token, ContractInstance):
-        raise Exception(f"Could not find token contract source for '{token.address}'")
-
-    return token
+def get_token(symbol: str, chain_id: int = None) -> TokenInfo:
+    breakpoint()
+    return manager.get_token_info(symbol, chain_id=chain_id)
 
 
 class TokenConversions(ConverterAPI):

@@ -62,7 +62,7 @@ setup(
     install_requires=[
         "importlib-metadata ; python_version<'3.8'",
         "eth-ape>=0.1.0a14,<0.2",
-        "tokenlists",
+        "tokenlists>=0.1.0b1",
     ],
     entry_points={
         "ape_cli_subcommands": [
