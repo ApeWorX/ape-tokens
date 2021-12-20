@@ -11,10 +11,10 @@ extras_require = {
         "hypothesis>=6.2.0,<7.0",  # Strategy-based fuzzer
     ],
     "lint": [
-        "black>=20.8b1,<21.0",  # auto-formatter and linter
-        "mypy>=0.800,<1.0",  # Static type analyzer
-        "flake8>=3.8.3,<4.0",  # Style linter
-        "isort>=5.7.0,<6.0",  # Import sorting linter
+        "black>=21.10b0,<22.0",  # auto-formatter and linter
+        "mypy>=0.910,<1.0",  # Static type analyzer
+        "flake8>=3.9.2,<4.0",  # Style linter
+        "isort>=5.9.3,<6.0",  # Import sorting linter
     ],
     "doc": [
         "Sphinx>=3.4.3,<4",  # Documentation generator
@@ -58,10 +58,10 @@ setup(
     author_email="admin@apeworx.io",
     url="https://github.com/ApeWorX/ape-tokens",
     include_package_data=True,
-    python_requires=">=3.6, <4",
+    python_requires=">=3.7, <4",
     install_requires=[
         "importlib-metadata ; python_version<'3.8'",
-        "eth-ape>=0.1.0a14,<0.2",
+        "eth-ape>=0.1.0b2",
         "tokenlists>=0.1.0b1",
     ],
     entry_points={
@@ -84,7 +84,6 @@ setup(
         "Operating System :: MacOS",
         "Operating System :: POSIX",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
