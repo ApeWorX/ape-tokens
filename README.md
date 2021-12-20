@@ -28,7 +28,9 @@ python3 setup.py install
 
 ## Quick Usage
 
-TODO: Describe library overview in code
+```bash
+ape tokens --help
+```
 
 ## Development
 
