@@ -32,12 +32,6 @@ python3 setup.py install
 ape tokens --help
 ```
 
-## Development
-
-This project is in early development and should be considered an alpha.
-Things might not work, breaking changes are likely.
-Comments, questions, criticisms and pull requests are welcomed.
-
 ## License
 
 This project is licensed under the [Apache 2.0](LICENSE).
