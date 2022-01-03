@@ -61,7 +61,7 @@ setup(
     python_requires=">=3.6, <4",
     install_requires=[
         "importlib-metadata ; python_version<'3.8'",
-        "eth-ape>=0.1.0a14,<0.2",
+        "eth-ape>=0.1.0b2,<0.2",
         "tokenlists>=0.1.0b1",
     ],
     entry_points={
