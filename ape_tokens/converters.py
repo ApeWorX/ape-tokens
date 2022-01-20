@@ -27,8 +27,9 @@ class TokenConversions(ConverterAPI):
             raise Exception("Not connected to a provider!")
 
         tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
+        token_map = map(lambda t: t.symbol, tokens)
 
-        return symbol in map(lambda t: t.symbol, tokens)
+        return symbol in token_map
 
     def convert(self, value: str) -> int:
         value, symbol = value.split(" ")
