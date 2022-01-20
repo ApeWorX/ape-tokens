@@ -48,7 +48,7 @@ To see other available CLI commands, run:
 ape tokens --help
 ```
 
-### Python usage
+### Python Usage
 
 One of the main reasons to use the `ape-tokens` plugin is to have nicer UX for providing token amounts to contract transactions.
 For example, let's say you have a smart-contract named `MyContract` with a function `provideLinkToken()` that takes a decimal value of `LINK` tokens.
