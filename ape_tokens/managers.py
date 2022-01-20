@@ -4,8 +4,8 @@ from ape.utils import cached_property
 from eth_utils import to_checksum_address
 from tokenlists import TokenListManager
 
-ERC20 = ContractType.from_dict(
-    {
+ERC20 = ContractType(
+    **{
         "contractName": "ERC20",  # type: ignore
         "abi": [
             {
