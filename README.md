@@ -28,8 +28,19 @@ python3 setup.py install
 
 ## Quick Usage
 
+To see all the available CLI commands, type:
+
 ```bash
 ape tokens --help
+```
+
+To use the `ConversionAPI` (via `ape.convert`) in your python script, import `convert` from ape:
+
+```python
+from ape import convert
+
+converted_val = convert("10 BAT", int)
+print(converted_val)  # prints 10000000000000000000
 ```
 
 ## Development
