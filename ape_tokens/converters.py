@@ -2,6 +2,7 @@ from decimal import Decimal
 from typing import Any
 
 from ape.api import ConverterAPI
+from ape.exceptions import ConversionError
 from ape.utils import cached_property
 from tokenlists import TokenListManager
 
@@ -24,7 +25,7 @@ class TokenConversions(ConverterAPI):
 
         provider = self.network_manager.active_provider
         if not provider:
-            raise Exception("Not connected to a provider!")
+            raise ConversionError("Must be connected to a provider to use the token converter.")
 
         tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
         token_map = map(lambda t: t.symbol, tokens)
