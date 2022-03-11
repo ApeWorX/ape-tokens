@@ -1,4 +1,4 @@
-from ape.api import AddressAPI
+from ape.api import Address
 from ape.types import ContractType
 from ape.utils import cached_property
 from eth_utils import to_checksum_address
@@ -116,7 +116,7 @@ class TokenManager(dict):
 
         return Contract
 
-    def __getitem__(self, symbol: str) -> AddressAPI:
+    def __getitem__(self, symbol: str) -> Address:
         try:
             token_info = self._manager.get_token_info(symbol)
 

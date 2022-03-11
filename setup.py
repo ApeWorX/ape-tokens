@@ -11,7 +11,7 @@ extras_require = {
         "hypothesis>=6.2.0,<7.0",  # Strategy-based fuzzer
     ],
     "lint": [
-        "black>=21.10b0,<22.0",  # auto-formatter and linter
+        "black>=21.12b0,<22.0",  # auto-formatter and linter
         "mypy>=0.910,<1.0",  # Static type analyzer
         "flake8>=3.9.2,<4.0",  # Style linter
         "isort>=5.9.3,<6.0",  # Import sorting linter
@@ -28,7 +28,7 @@ extras_require = {
         "twine",  # Package upload tool
     ],
     "dev": [
-        "commitizen",  # Manage commits and publishing releases
+        "commitizen>=2.19,<2.20",  # Manage commits and publishing releases
         "pre-commit",  # Ensure that linters are run prior to commiting
         "pytest-watch",  # `ptw` test watcher/runner
         "IPython",  # Console for interacting
@@ -58,10 +58,10 @@ setup(
     author_email="admin@apeworx.io",
     url="https://github.com/ApeWorX/ape-tokens",
     include_package_data=True,
-    python_requires=">=3.7, <4",
+    python_requires=">=3.7.2, <4",
     install_requires=[
         "importlib-metadata ; python_version<'3.8'",
-        "eth-ape>=0.1.0b4",
+        "eth-ape>=0.1.0,<0.2.0",
         "tokenlists>=0.1.1",
     ],
     entry_points={
@@ -77,7 +77,7 @@ setup(
     packages=find_packages(exclude=["tests", "tests.*"]),
     package_data={"ape_tokens": ["py.typed"]},
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Natural Language :: English",
