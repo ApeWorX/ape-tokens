@@ -3,14 +3,15 @@ from typing import Any
 
 from ape.api import ConverterAPI
 from ape.exceptions import ConversionError
+from ape.logging import logger
 from ape.utils import cached_property
 from tokenlists import TokenListManager
-
-from ape.logging import logger
 
 
 class TokenConversions(ConverterAPI):
     """Converts token amounts like `100 LINK` to 1e18"""
+
+    _did_warn_no_lists_installed = False
 
     @cached_property
     def manager(self) -> TokenListManager:
@@ -30,8 +31,10 @@ class TokenConversions(ConverterAPI):
             raise ConversionError("Must be connected to a provider to use the token converter.")
         try:
             tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
-        except tokens.DoesNotExist as err:
-            logger.warn_from_exception(err)
+        except ValueError as err:
+            if not self._did_warn_no_lists_installed:
+                logger.warn_from_exception(err, "There are no token lists installed")
+                self._did_warn_no_lists_installed = True
             return False
         token_map = map(lambda t: t.symbol, tokens)
 
