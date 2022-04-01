@@ -6,6 +6,8 @@ from ape.exceptions import ConversionError
 from ape.utils import cached_property
 from tokenlists import TokenListManager
 
+from ape.logging import logger
+
 
 class TokenConversions(ConverterAPI):
     """Converts token amounts like `100 LINK` to 1e18"""
@@ -29,6 +31,7 @@ class TokenConversions(ConverterAPI):
         try:
             tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
         except tokens.DoesNotExist:
+            logger.warn_from_exception(err)
             return False
         token_map = map(lambda t: t.symbol, tokens)
 
