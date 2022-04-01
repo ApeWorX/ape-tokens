@@ -26,8 +26,10 @@ class TokenConversions(ConverterAPI):
         provider = self.network_manager.active_provider
         if not provider:
             raise ConversionError("Must be connected to a provider to use the token converter.")
-
-        tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
+        try:
+            tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
+        except:
+            return False
         token_map = map(lambda t: t.symbol, tokens)
 
         return symbol in token_map
@@ -41,4 +43,4 @@ class TokenConversions(ConverterAPI):
         assert self.manager  # Really just to help mypy
         token = self.manager.get_token_info(symbol, chain_id=provider.network.chain_id)
 
-        return int(Decimal(value) * 10 ** token.decimals)
+        return int(Decimal(value) * 10**token.decimals)
