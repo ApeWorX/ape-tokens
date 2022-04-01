@@ -28,7 +28,7 @@ class TokenConversions(ConverterAPI):
             raise ConversionError("Must be connected to a provider to use the token converter.")
         try:
             tokens = self.manager.get_tokens(chain_id=provider.network.chain_id)
-        except:
+        except tokens.DoesNotExist:
             return False
         token_map = map(lambda t: t.symbol, tokens)
 
