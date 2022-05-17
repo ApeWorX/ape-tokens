@@ -81,12 +81,6 @@ bat = tokens["BAT"]
 print(bat.address)
 ```
 
-## Development
-
-This project is in development and should be considered a beta.
-Things might not be in their final state and breaking changes may occur.
-Comments, questions, criticisms and pull requests are welcomed.
-
 ## License
 
 This project is licensed under the [Apache 2.0](LICENSE).
