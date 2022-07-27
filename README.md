@@ -4,7 +4,7 @@ A series of utilities for working with tokens, based on the [`py-tokenlists`](ht
 
 ## Dependencies
 
-* [python3](https://www.python.org/downloads) version 3.7 or greater, python3-dev
+* [python3](https://www.python.org/downloads) version 3.7.2 or greater, python3-dev
 
 ## Installation
 
