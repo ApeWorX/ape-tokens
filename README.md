@@ -1,10 +1,10 @@
-# Ape Token Utilities
+# Quick Start
 
 A series of utilities for working with tokens, based on the [`py-tokenlists`](https://github.com/ApeWorX/py-tokenlists).
 
 ## Dependencies
 
-* [python3](https://www.python.org/downloads) version 3.7.2 or greater, python3-dev
+* [python3](https://www.python.org/downloads) version 3.8 or greater, python3-dev
 
 ## Installation
 
@@ -80,7 +80,3 @@ bat = tokens["BAT"]
 
 print(bat.address)
 ```
-
-## License
-
-This project is licensed under the [Apache 2.0](LICENSE).
