@@ -6,7 +6,7 @@ from tokenlists import TokenListManager
 
 ERC20 = ContractType(
     **{
-        "contractName": "ERC20",  # type: ignore
+        "contractName": "ERC20",
         "abi": [
             {
                 "type": "function",
