@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import find_packages, setup  # type: ignore
+from setuptools import find_packages, setup
 
 extras_require = {
     "test": [  # `test` GitHub Action jobs uses this
@@ -11,10 +11,14 @@ extras_require = {
         "hypothesis>=6.2.0,<7.0",  # Strategy-based fuzzer
     ],
     "lint": [
-        "black>=22.6.0,<23.0",  # auto-formatter and linter
-        "mypy>=0.971,<1.0",  # Static type analyzer
-        "flake8>=4.0.1,<5.0",  # Style linter
-        "isort>=5.10.1,<6.0",  # Import sorting linter
+        "black>=22.12.0",  # auto-formatter and linter
+        "mypy>=0.991",  # Static type analyzer
+        "types-setuptools",  # Needed due to mypy typeshed
+        "flake8>=5.0.4",  # Style linter
+        "isort>=5.10.1",  # Import sorting linter
+        "mdformat>=0.7.16",  # Auto-formatter for markdown
+        "mdformat-gfm>=0.3.5",  # Needed for formatting GitHub-flavored markdown
+        "mdformat-frontmatter>=0.4.1",  # Needed for frontmatters-style headers in issue templates
     ],
     "doc": [
         "Sphinx>=3.4.3,<4",  # Documentation generator
@@ -29,7 +33,7 @@ extras_require = {
     ],
     "dev": [
         "commitizen",  # Manage commits and publishing releases
-        "pre-commit",  # Ensure that linters are run prior to commiting
+        "pre-commit",  # Ensure that linters are run prior to committing
         "pytest-watch",  # `ptw` test watcher/runner
         "IPython",  # Console for interacting
         "ipdb",  # Debugger (Must use `export PYTHONBREAKPOINT=ipdb.set_trace`)
@@ -60,7 +64,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.8,<4",
     install_requires=[
-        "eth-ape>=0.5.0,<0.6",
+        "eth-ape>=0.6.0,<0.7",
         "tokenlists>=0.1.2",
     ],
     entry_points={

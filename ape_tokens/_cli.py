@@ -1,2 +1,3 @@
-# flake8: noqa
-from tokenlists._cli import cli  # type: ignore
+from tokenlists._cli import cli
+
+__all__ = ["cli"]
