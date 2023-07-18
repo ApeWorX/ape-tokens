@@ -118,7 +118,9 @@ class TokenManager(ManagerAccessMixin, dict):
 
     def __getitem__(self, symbol: str) -> ContractInstance:
         try:
-            token_info = self._manager.get_token_info(symbol)
+            token_info = self._manager.get_token_info(
+                symbol, chain_id=self.network_manager.network.chain_id
+            )
 
         except ValueError as e:
             raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from e
