@@ -110,11 +110,8 @@ class TokenManager(ManagerAccessMixin, dict):
     def _manager(self) -> TokenListManager:
         return TokenListManager()
 
-    @cached_property
-    def _Contract(self):
-        from ape import Contract
-
-        return Contract
+    def __repr__(self) -> str:
+        return "<ape_tokens.TokenManager>"
 
     def __getitem__(self, symbol: str) -> ContractInstance:
         try:
