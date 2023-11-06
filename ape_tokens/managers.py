@@ -4,8 +4,8 @@ from ape.utils import ManagerAccessMixin, cached_property
 from eth_utils import to_checksum_address
 from tokenlists import TokenListManager
 
-ERC20 = ContractType(
-    **{
+ERC20 = ContractType.parse_obj(
+    {
         "contractName": "ERC20",
         "abi": [
             {
@@ -119,8 +119,9 @@ class TokenManager(ManagerAccessMixin, dict):
                 symbol, chain_id=self.network_manager.network.chain_id
             )
 
-        except ValueError as e:
-            raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from e
+        except ValueError as err:
+            message = f"Symbol '{symbol}' is not a known token symbol"
+            raise KeyError(message) from err
 
         return self.chain_manager.contracts.instance_at(
             to_checksum_address(token_info.address), contract_type=ERC20
