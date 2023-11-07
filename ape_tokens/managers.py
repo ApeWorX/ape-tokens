@@ -120,8 +120,7 @@ class TokenManager(ManagerAccessMixin, dict):
             )
 
         except ValueError as err:
-            message = f"Symbol '{symbol}' is not a known token symbol"
-            raise KeyError(message) from err
+            raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
 
         return self.chain_manager.contracts.instance_at(
             to_checksum_address(token_info.address), contract_type=ERC20
