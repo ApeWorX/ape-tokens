@@ -11,14 +11,15 @@ extras_require = {
         "hypothesis>=6.2.0,<7.0",  # Strategy-based fuzzer
     ],
     "lint": [
-        "black>=23.10.1,<24",  # auto-formatter and linter
-        "mypy>=1.6.1,<2",  # Static type analyzer
-        "types-setuptools",  # Needed due to mypy typeshed
+        "black>=23.11.0,<24",  # Auto-formatter and linter
+        "mypy>=1.7.0,<2",  # Static type analyzer
+        "types-setuptools",  # Needed for mypy type shed
         "flake8>=6.1.0,<7",  # Style linter
         "isort>=5.10.1,<6",  # Import sorting linter
         "mdformat>=0.7.17",  # Auto-formatter for markdown
         "mdformat-gfm>=0.3.5",  # Needed for formatting GitHub-flavored markdown
         "mdformat-frontmatter>=0.4.1",  # Needed for frontmatters-style headers in issue templates
+        "mdformat-pyproject>=0.0.1",  # Allows configuring in pyproject.toml
     ],
     "doc": [
         "Sphinx>=3.4.3,<4",  # Documentation generator
@@ -64,7 +65,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.8,<4",
     install_requires=[
-        "eth-ape>=0.6.0,<0.7",
+        "eth-ape>=0.7.0,<0.8",
         "tokenlists>=0.1.5",
     ],
     entry_points={
