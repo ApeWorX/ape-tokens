@@ -66,7 +66,7 @@ setup(
     python_requires=">=3.8,<4",
     install_requires=[
         "eth-ape>=0.7.0,<0.8",
-        "tokenlists>=0.1.5",
+        "tokenlists>=0.1.6",
     ],
     entry_points={
         "ape_cli_subcommands": [
