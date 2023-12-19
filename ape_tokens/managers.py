@@ -4,7 +4,7 @@ from ape.utils import ManagerAccessMixin, cached_property
 from eth_utils import to_checksum_address
 from tokenlists import TokenListManager
 
-ERC20 = ContractType.parse_obj(
+ERC20 = ContractType.model_validate(
     {
         "contractName": "ERC20",
         "abi": [
