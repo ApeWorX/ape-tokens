@@ -123,9 +123,10 @@ class TokenManager(ManagerAccessMixin, dict):
         except ValueError as err:
             raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
 
+        checksummed_address = to_checksum_address(token_info.address)
         try:
-            return self.chain_manager.contracts.instance_at(to_checksum_address(token_info.address))
+            return self.chain_manager.contracts.instance_at(checksummed_address)
         except ContractNotFoundError:
             return self.chain_manager.contracts.instance_at(
-                to_checksum_address(token_info.address), contract_type=ERC20
+                checksummed_address, contract_type=ERC20
             )
