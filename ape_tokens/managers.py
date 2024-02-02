@@ -112,7 +112,7 @@ class TokenManager(ManagerAccessMixin, dict):
         return TokenListManager()
 
     def __repr__(self) -> str:
-        return "<ape_tokens.TokenManager>"
+        return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
     def __getitem__(self, symbol: str) -> ContractInstance:
         try:
