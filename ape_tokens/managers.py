@@ -1,3 +1,5 @@
+from typing import Iterator
+
 from ape.contracts import ContractInstance
 from ape.exceptions import ContractNotFoundError
 from ape.types import ContractType
@@ -114,6 +116,9 @@ class TokenManager(ManagerAccessMixin, dict):
     def __repr__(self) -> str:
         return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
+    def __iter__(self) -> Iterator[ContractInstance]:
+        yield from self.values()
+
     def __getitem__(self, symbol: str) -> ContractInstance:
         try:
             token_info = self._manager.get_token_info(
@@ -130,3 +135,9 @@ class TokenManager(ManagerAccessMixin, dict):
             return self.chain_manager.contracts.instance_at(
                 checksummed_address, contract_type=ERC20
             )
+
+    def __getattr__(self, symbol: str) -> ContractInstance:
+        try:
+            return self[symbol]
+        except KeyError as e:
+            raise AttributeError(str(e)) from None
