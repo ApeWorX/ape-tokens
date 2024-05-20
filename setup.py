@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 from setuptools import find_packages, setup
 
@@ -63,7 +62,7 @@ setup(
     author_email="admin@apeworx.io",
     url="https://github.com/ApeWorX/ape-tokens",
     include_package_data=True,
-    python_requires=">=3.8,<4",
+    python_requires=">=3.9,<4",
     install_requires=[
         "eth-ape>=0.7.0,<0.8",
         "tokenlists>=0.1.7",
@@ -88,7 +87,6 @@ setup(
         "Operating System :: MacOS",
         "Operating System :: POSIX",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
