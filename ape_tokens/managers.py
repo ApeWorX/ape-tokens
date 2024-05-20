@@ -117,10 +117,10 @@ class TokenManager(ManagerAccessMixin, Mapping[str, ContractInstance]):
         return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
     def __len__(self) -> int:
-        return len(list(self._manager.get_tokens(chainid=self.provider.chain_id)))
+        return len(list(self._manager.get_tokens(chain_id=self.provider.chain_id)))
 
     def __iter__(self) -> Iterator[ContractInstance]:
-        for token in self._manager.get_tokens(chainid=self.provider.chain_id):
+        for token in self._manager.get_tokens(chain_id=self.provider.chain_id):
             yield self[token.symbol]
 
     def __getitem__(self, symbol: str) -> ContractInstance:
