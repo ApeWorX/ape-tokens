@@ -124,12 +124,16 @@ class TokenManager(ManagerAccessMixin, Mapping[str, ContractInstance]):
             yield self[token.symbol]
 
     def __getitem__(self, symbol: str) -> ContractInstance:
-        try:
-            token_info = self._manager.get_token_info(
-                symbol, chain_id=self.network_manager.network.chain_id
-            )
-
-        except ValueError as err:
+        token_info = None
+        for tokenlist in self._manager.available_tokenlists():
+            try:
+                token_info = self._manager.get_token_info(
+                    symbol, chain_id=self.network_manager.network.chain_id, token_listname=tokenlist
+                )
+            except ValueError:
+                continue
+        
+        if token_info is None:
             raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
 
         checksummed_address = to_checksum_address(token_info.address)
