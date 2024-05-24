@@ -134,7 +134,7 @@ class TokenManager(ManagerAccessMixin, Mapping[str, ContractInstance]):
                 continue
         
         if token_info is None:
-            raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
+            raise KeyError(f"Symbol '{symbol}' is not a known token symbol")
 
         checksummed_address = to_checksum_address(token_info.address)
         try:
