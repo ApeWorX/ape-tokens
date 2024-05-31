@@ -64,7 +64,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.9,<4",
     install_requires=[
-        "eth-ape>=0.7.0,<0.8",
+        "eth-ape>=0.8.1,<0.9",
         "tokenlists>=0.1.7",
     ],
     entry_points={
