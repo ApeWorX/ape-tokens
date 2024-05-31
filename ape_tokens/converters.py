@@ -1,5 +1,6 @@
+from collections.abc import Iterator
 from decimal import Decimal
-from typing import Any, Iterator
+from typing import Any
 
 from ape.api import ConverterAPI
 from ape.exceptions import ConversionError, ProviderNotConnectedError
