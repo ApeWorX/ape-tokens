@@ -77,6 +77,8 @@ Lastly, to get information about a token, including its contract address, you ca
 from ape_tokens import tokens
 
 bat = tokens["BAT"]
+# Or, access via attribute
+bat = tokens.BAT
 
 print(bat.address)
 ```
