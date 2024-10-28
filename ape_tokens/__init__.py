@@ -13,17 +13,9 @@ def converters():
     yield AddressType, TokenSymbolConverter
 
 
-tokens = None  # NOTE: Initialized lazily
-
-
 def __getattr__(name: str) -> Any:
     if name == "tokens":
-
-        global tokens
-        if tokens is None:
-            from .managers import TokenManager as _TokenManager
-
-            tokens = _TokenManager()
+        from .main import tokens
 
         return tokens
 
