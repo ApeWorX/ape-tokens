@@ -1,9 +1,13 @@
-from ape.contracts import ContractInstance
+from typing import TYPE_CHECKING
+
 from ape.exceptions import ContractNotFoundError
 from ape.types import ContractType
 from ape.utils import ManagerAccessMixin, cached_property
 from eth_utils import to_checksum_address
 from tokenlists import TokenListManager
+
+if TYPE_CHECKING:
+    from ape.contracts import ContractInstance
 
 ERC20 = ContractType.model_validate(
     {
@@ -114,7 +118,7 @@ class TokenManager(ManagerAccessMixin, dict):
     def __repr__(self) -> str:
         return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
-    def __getitem__(self, symbol: str) -> ContractInstance:
+    def __getitem__(self, symbol: str) -> "ContractInstance":
         try:
             token_info = self._manager.get_token_info(
                 symbol, chain_id=self.network_manager.network.chain_id
