@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from ape.exceptions import ContractNotFoundError
 from ape.types import ContractType
 from ape.utils import ManagerAccessMixin, cached_property
-from eth_utils import to_checksum_address
+from cchecksum import to_checksum_address
 from tokenlists import TokenListManager
 
 if TYPE_CHECKING:
