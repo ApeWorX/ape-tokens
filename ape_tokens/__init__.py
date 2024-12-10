@@ -19,10 +19,22 @@ def __getattr__(name: str) -> Any:
 
         return tokens
 
+    elif name == "TokenAmountConverter":
+        from .converters import TokenAmountConverter
+
+        return TokenAmountConverter
+
+    elif name == "TokenSymbolConverter":
+        from .converters import TokenSymbolConverter
+
+        return TokenSymbolConverter
+
     else:
         raise AttributeError(name)
 
 
 __all__ = [
     "tokens",
+    "TokenAmountConverter",
+    "TokenSymbolConverter",
 ]
