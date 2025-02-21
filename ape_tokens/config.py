@@ -1,5 +1,6 @@
 from ape.api import PluginConfig
 from pydantic import BaseModel
+from pydantic_settings import SettingsConfigDict
 
 
 class ListInfo(BaseModel):
@@ -13,3 +14,5 @@ class ListInfo(BaseModel):
 class TokensConfig(PluginConfig):
     default: str | None = None
     required: list[ListInfo] = []
+
+    model_config = SettingsConfigDict(env_prefix="APE_TOKENS_")
