@@ -3,6 +3,13 @@ from typing import Any
 from ape import plugins
 
 
+@plugins.register(plugins.Config)
+def config_class():
+    from .config import TokensConfig
+
+    return TokensConfig
+
+
 @plugins.register(plugins.ConversionPlugin)
 def converters():
     from ape.types.address import AddressType
