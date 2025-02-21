@@ -125,7 +125,7 @@ class TokenInstance(ContractInstance, ManagerAccessMixin):
         name_method = self._view_methods_["name"]
         name_method.__class__ = CachedCallHandler
         name_method.__doc__ = """The name of the token (sourced from 'py-tokenlists')"""
-        name_method._cached_value = self._token_info.name
+        name_method._cached_value = self._token_info.name  # type: ignore[attr-defined]
         return name_method
 
     @cached_property
@@ -134,7 +134,7 @@ class TokenInstance(ContractInstance, ManagerAccessMixin):
         symbol_method = self._view_methods_["symbol"]
         symbol_method.__class__ = CachedCallHandler
         symbol_method.__doc__ = """The symbol of the token (sourced from 'py-tokenlists')"""
-        symbol_method._cached_value = self._token_info.symbol
+        symbol_method._cached_value = self._token_info.symbol  # type: ignore[attr-defined]
         return symbol_method
 
     @cached_property
@@ -143,7 +143,7 @@ class TokenInstance(ContractInstance, ManagerAccessMixin):
         decimals_method = self._view_methods_["decimals"]
         decimals_method.__class__ = CachedCallHandler
         decimals_method.__doc__ = """The decimals of the token (sourced from 'py-tokenlists')"""
-        decimals_method._cached_value = self._token_info.decimals
+        decimals_method._cached_value = self._token_info.decimals  # type: ignore[attr-defined]
         return decimals_method
 
     def __repr__(self) -> str:
