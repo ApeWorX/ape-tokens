@@ -63,7 +63,7 @@ tokens:
 
 You can also configure this plugin via Environment Variable:
 
-````sh
+```sh
 APE_TOKENS_DEFAULT="My Default List"
 APE_TOKENS_REQUIRED='[{"name":"My Default List","uri":"http://example.com/tokenlist.json"}]'
 ```
@@ -83,7 +83,7 @@ my_account = accounts[0]
 contract = my_account.deploy(project.MyContract)
 
 contract.provideLinkTokens("8.23 LINK")
-````
+```
 
 Alternatively, if you need the converted value returned to you, you can use the `convert` tool from the root `ape` namespace:
 
