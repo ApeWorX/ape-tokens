@@ -30,7 +30,7 @@ class TokenManager(ManagerAccessMixin, dict):
                 if (
                     installed_name := manager.install_tokenlist(required_tokenlist.uri)
                 ) != required_tokenlist.name:
-                    # TODO: Allow setting custom name via `TokenListManager.install_tokenlist` to avoid this
+                    # TODO: Allow setting custom name via `TokenListManager.install_tokenlist`
                     logger.warning(
                         f"Installed list name '{installed_name}' does not match "
                         f"requirement '{required_tokenlist.name}'. This could be problematic."
