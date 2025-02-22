@@ -48,6 +48,28 @@ To see other available CLI commands, run:
 ape tokens --help
 ```
 
+### Configuration
+
+You can configure this plugin (and by extension, configure `py-tokenlists`) using the config file:
+
+```yaml
+# ape-config.yaml
+tokens:
+  default: "My Default List"
+  required:
+    - name: "My Default List"
+      uri: "http://example.com/tokenlist.json"
+```
+
+You can also configure this plugin via Environment Variable:
+
+```sh
+APE_TOKENS_DEFAULT="My Default List"
+APE_TOKENS_REQUIRED='[{"name":"My Default List","uri":"http://example.com/tokenlist.json"}]'
+```
+
+Configuration like this may be useful for operating in a cloud environment
+
 ### Python Usage
 
 One of the main reasons to use the `ape-tokens` plugin is to have nicer UX for providing token amounts to contract transactions.
