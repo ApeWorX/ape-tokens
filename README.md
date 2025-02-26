@@ -70,6 +70,24 @@ APE_TOKENS_REQUIRED='[{"name":"My Default List","uri":"http://example.com/tokenl
 
 Configuration like this may be useful for operating in a cloud environment
 
+### Ape Console Extras
+
+The `tokens` manager object is very useful for improving your ape experience.
+You can install it as a ["console namespace extra"](https://docs.apeworx.io/ape/stable/userguides/console.html#namespace-extra) by adding the following lines to your project's `./ape_console_extras.py` or your global `$HOME/.ape/ape_console_extras.py`:
+
+```py
+...
+
+try:
+    from ape_tokens import tokens
+except ImportError:
+    pass  # Plugin not installed, skip
+
+...
+```
+
+This way, whenever you use `ape console` (with this plugin installed) you will have `tokens` available immediately without having to import it!
+
 ### Python Usage
 
 One of the main reasons to use the `ape-tokens` plugin is to have nicer UX for providing token amounts to contract transactions.
