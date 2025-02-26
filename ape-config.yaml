@@ -1,0 +1,11 @@
+plugins:
+  - name: foundry
+
+tokens:
+  default: "CoinGecko"
+  required:
+    - name: "CoinGecko"
+      uri: "https://tokens.coingecko.com/uniswap/all.json"
+
+ethereum:
+  default_network: mainnet-fork
