@@ -2,7 +2,7 @@ from typing import Any
 
 from ape.contracts.base import ContractCallHandler, ContractInstance
 from ape.types import ContractType
-from ape.utils import ManagerAccessMixin, cached_property
+from ape.utils import cached_property
 from eth_utils import to_checksum_address
 from tokenlists import TokenInfo
 
@@ -114,7 +114,7 @@ class CachedCallHandler(ContractCallHandler):
         return self._cached_value
 
 
-class TokenInstance(ContractInstance, ManagerAccessMixin):
+class TokenInstance(ContractInstance):
     # NOTE: Subclass this so that we don't create a breaking interface (still is a ContractInstance)
     _token_info: TokenInfo | None = None
 
