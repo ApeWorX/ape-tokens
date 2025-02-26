@@ -20,6 +20,8 @@ include = '\.pyi?$'
 
 [tool.pytest.ini_options]
 addopts = """
+    -p no:boa_test
+    -p no:pytest_ethereum
     --cov-branch
     --cov-report term
     --cov-report html
