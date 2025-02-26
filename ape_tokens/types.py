@@ -155,6 +155,8 @@ class TokenInstance(ContractInstance):
         contract_instance = cls.chain_manager.contracts.instance_at(
             checksummed_address,
             contract_type=ERC20,
+            # NOTE: Use default setting for proxy detection as we don't
+            #       know if token is proxy (e.g. USDC)
         )
         contract_instance.__class__ = cls
         contract_instance._token_info = token_info
