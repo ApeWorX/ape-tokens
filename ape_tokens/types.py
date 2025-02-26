@@ -1,10 +1,11 @@
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from ape.contracts.base import ContractCallHandler, ContractInstance
 from ape.types import ContractType
-from ape.utils import cached_property
 from eth_utils import to_checksum_address
-from tokenlists import TokenInfo
+
+if TYPE_CHECKING:
+    from tokenlists import TokenInfo
 
 ERC20 = ContractType.model_validate(
     {
@@ -107,57 +108,41 @@ ERC20 = ContractType.model_validate(
 )
 
 
-class CachedCallHandler(ContractCallHandler):
+class ImmutableCallHandler(ContractCallHandler):
+    # TODO: Should this move upstream into Ape as `ImmutableCallHandler`?
     _cached_value: Any
 
-    def __call__(self, *args: Any, **kwds: Any) -> Any:
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        if not self._cached_value:
+            self._cached_value = super().__call__(*args, **kwargs)
+
         return self._cached_value
 
 
 class TokenInstance(ContractInstance):
     # NOTE: Subclass this so that we don't create a breaking interface (still is a ContractInstance)
-    _token_info: TokenInfo | None = None
-
-    # Cached "immutable" method calls (skip RPC request, return cached token info)
-    @cached_property
-    def name(self) -> ContractCallHandler:
-        assert self._token_info  # mypy happy
-        name_method = self._view_methods_["name"]
-        name_method.__class__ = CachedCallHandler
-        name_method.__doc__ = """The name of the token (sourced from 'py-tokenlists')"""
-        name_method._cached_value = self._token_info.name  # type: ignore[attr-defined]
-        return name_method
-
-    @cached_property
-    def symbol(self) -> ContractCallHandler:
-        assert self._token_info  # mypy happy
-        symbol_method = self._view_methods_["symbol"]
-        symbol_method.__class__ = CachedCallHandler
-        symbol_method.__doc__ = """The symbol of the token (sourced from 'py-tokenlists')"""
-        symbol_method._cached_value = self._token_info.symbol  # type: ignore[attr-defined]
-        return symbol_method
-
-    @cached_property
-    def decimals(self) -> ContractCallHandler:
-        assert self._token_info  # mypy happy
-        decimals_method = self._view_methods_["decimals"]
-        decimals_method.__class__ = CachedCallHandler
-        decimals_method.__doc__ = """The decimals of the token (sourced from 'py-tokenlists')"""
-        decimals_method._cached_value = self._token_info.decimals  # type: ignore[attr-defined]
-        return decimals_method
 
     def __repr__(self) -> str:
         return f"<{self.symbol()} {self.address}>"
 
     @classmethod
     def from_tokeninfo(cls, token_info: "TokenInfo"):
-        checksummed_address = to_checksum_address(token_info.address)
         contract_instance = cls.chain_manager.contracts.instance_at(
-            checksummed_address,
+            to_checksum_address(token_info.address),
             contract_type=ERC20,
             # NOTE: Use default setting for proxy detection as we don't
             #       know if token is proxy (e.g. USDC)
         )
+
+        # NOTE: Patch all of our "immutable" fields with caching call handler subclass
+        for field in ("name", "symbol", "decimals"):
+            method = contract_instance._view_methods_[field]
+            method.__class__ = ImmutableCallHandler
+            method.__doc__ = f"""The {field} of the token (sourced from 'py-tokenlists')"""
+            method._cached_value = getattr(token_info, field)
+            contract_instance._view_methods_[field] = method
+
+        # NOTE: Inject class for custom repr/class instancing
         contract_instance.__class__ = cls
-        contract_instance._token_info = token_info
+
         return contract_instance
