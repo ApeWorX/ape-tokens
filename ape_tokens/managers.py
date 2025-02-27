@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterator
 
 from ape.logging import get_logger
 from ape.utils import ManagerAccessMixin, cached_property
@@ -54,3 +54,11 @@ class TokenManager(ManagerAccessMixin, dict):
             raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
 
         return TokenInstance.from_tokeninfo(token_info)
+
+    def __len__(self) -> int:
+        tokenlist = self._manager.get_tokenlist()
+        return len(tokenlist.tokens)
+
+    def __iter__(self) -> Iterator["ContractInstance"]:
+        for token_info in self._manager.get_tokens(chain_id=self.network_manager.network.chain_id):
+            yield TokenInstance.from_tokeninfo(token_info)
