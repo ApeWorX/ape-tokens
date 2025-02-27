@@ -1,12 +1,10 @@
 from typing import TYPE_CHECKING
 
-from ape.exceptions import ContractNotFoundError
 from ape.logging import get_logger
 from ape.utils import ManagerAccessMixin, cached_property
-from eth_utils import to_checksum_address
 from tokenlists import TokenListManager
 
-from .types import ERC20
+from .types import TokenInstance
 
 if TYPE_CHECKING:
     from ape.contracts import ContractInstance
@@ -55,10 +53,4 @@ class TokenManager(ManagerAccessMixin, dict):
         except ValueError as err:
             raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
 
-        checksummed_address = to_checksum_address(token_info.address)
-        try:
-            return self.chain_manager.contracts.instance_at(checksummed_address)
-        except ContractNotFoundError:
-            return self.chain_manager.contracts.instance_at(
-                checksummed_address, contract_type=ERC20
-            )
+        return TokenInstance.from_tokeninfo(token_info)

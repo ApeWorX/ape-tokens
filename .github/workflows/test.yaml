@@ -65,11 +65,17 @@ jobs:
                 os: [ubuntu-latest, macos-latest]   # eventually add `windows-latest`
                 python-version: [3.9, "3.10", "3.11", "3.12", "3.13"]
 
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
         steps:
         - uses: actions/checkout@v4
 
-        - name: Setup Python
-          uses: actions/setup-python@v5
+        - name: Install Foundry
+          uses: foundry-rs/foundry-toolchain@v1
+
+        - name: Install Ape
+          uses: ApeWorX/github-action@v3
           with:
               python-version: ${{ matrix.python-version }}
 
@@ -79,7 +85,7 @@ jobs:
             pip install .[test]
 
         - name: Run Tests
-          run: pytest -m "not fuzzing" -n 0 -s --cov
+          run: ape test -m "not fuzzing" -n 0 -s --cov
 
 # NOTE: uncomment this block after you've marked tests with @pytest.mark.fuzzing
 #    fuzzing:

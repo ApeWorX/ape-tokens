@@ -1,4 +1,11 @@
+from typing import TYPE_CHECKING, Any
+
+from ape.contracts.base import ContractCallHandler, ContractInstance
 from ape.types import ContractType
+from eth_utils import to_checksum_address
+
+if TYPE_CHECKING:
+    from tokenlists import TokenInfo
 
 ERC20 = ContractType.model_validate(
     {
@@ -99,3 +106,43 @@ ERC20 = ContractType.model_validate(
         ],
     }
 )
+
+
+class ImmutableCallHandler(ContractCallHandler):
+    # TODO: Should this move upstream into Ape as `ImmutableCallHandler`?
+    _cached_value: Any
+
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        if not self._cached_value:
+            self._cached_value = super().__call__(*args, **kwargs)
+
+        return self._cached_value
+
+
+class TokenInstance(ContractInstance):
+    # NOTE: Subclass this so that we don't create a breaking interface (still is a ContractInstance)
+
+    def __repr__(self) -> str:
+        return f"<{self.symbol()} {self.address}>"
+
+    @classmethod
+    def from_tokeninfo(cls, token_info: "TokenInfo"):
+        contract_instance = cls.chain_manager.contracts.instance_at(
+            to_checksum_address(token_info.address),
+            contract_type=ERC20,
+            # NOTE: Use default setting for proxy detection as we don't
+            #       know if token is proxy (e.g. USDC)
+        )
+
+        # NOTE: Patch all of our "immutable" fields with caching call handler subclass
+        for field in ("name", "symbol", "decimals"):
+            method = contract_instance._view_methods_[field]
+            method.__class__ = ImmutableCallHandler
+            method.__doc__ = f"""The {field} of the token (sourced from 'py-tokenlists')"""
+            method._cached_value = getattr(token_info, field)
+            contract_instance._view_methods_[field] = method
+
+        # NOTE: Inject class for custom repr/class instancing
+        contract_instance.__class__ = cls
+
+        return contract_instance
