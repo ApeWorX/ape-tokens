@@ -53,6 +53,12 @@ class TokenManager(ManagerAccessMixin, Mapping[str, TokenInstance]):
 
         return TokenInstance.from_tokeninfo(token_info)
 
+    def __getattr__(self, symbol: str) -> TokenInstance:
+        try:
+            return self[symbol]
+        except KeyError as e:
+            raise AttributeError(str(e)) from None
+
     def __len__(self) -> int:
         tokenlist = self._manager.get_tokenlist()
         return len(tokenlist.tokens)
