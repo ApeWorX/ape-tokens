@@ -7,8 +7,6 @@ from tokenlists import TokenListManager
 from .types import TokenInstance
 
 if TYPE_CHECKING:
-    from ape.contracts import ContractInstance
-
     from .config import TokensConfig
 
 logger = get_logger(__package__)
@@ -44,7 +42,7 @@ class TokenManager(ManagerAccessMixin, Mapping[str, TokenInstance]):
     def __repr__(self) -> str:
         return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
-    def __getitem__(self, symbol: str) -> "ContractInstance":
+    def __getitem__(self, symbol: str) -> TokenInstance:
         try:
             token_info = self._manager.get_token_info(
                 symbol, chain_id=self.network_manager.network.chain_id
@@ -59,6 +57,6 @@ class TokenManager(ManagerAccessMixin, Mapping[str, TokenInstance]):
         tokenlist = self._manager.get_tokenlist()
         return len(tokenlist.tokens)
 
-    def __iter__(self) -> Iterator["ContractInstance"]:
+    def __iter__(self) -> Iterator[TokenInstance]:
         for token_info in self._manager.get_tokens(chain_id=self.network_manager.network.chain_id):
             yield TokenInstance.from_tokeninfo(token_info)
