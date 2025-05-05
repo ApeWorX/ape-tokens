@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Iterator
+from typing import TYPE_CHECKING, Iterator, Mapping
 
 from ape.logging import get_logger
 from ape.utils import ManagerAccessMixin, cached_property
@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 logger = get_logger(__package__)
 
 
-class TokenManager(ManagerAccessMixin, dict):
+class TokenManager(ManagerAccessMixin, Mapping[str, TokenInstance]):
     @property
     def config(self) -> "TokensConfig":
         return self.config_manager.get_config("tokens")
