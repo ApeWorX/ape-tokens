@@ -26,6 +26,10 @@ def test_immutable():
     assert usdc.decimals() == 6
 
 
+def test_getattr():
+    assert tokens.USDC == tokens["USDC"]
+
+
 def test_iter():
     assert len(tokens) > 0
     assert next(iter(tokens))
