@@ -100,7 +100,7 @@ from ape import accounts, project
 my_account = accounts[0]
 contract = my_account.deploy(project.MyContract)
 
-contract.provideLinkTokens("8.23 LINK")
+tx = contract.provideLinkTokens("8.23 LINK", sender=me)
 ```
 
 Alternatively, if you need the converted value returned to you, you can use the `convert` tool from the root `ape` namespace:
@@ -111,7 +111,13 @@ from ape import convert
 convert("100.1234 BAT", int)
 ```
 
-Lastly, to get information about a token, including its contract address, you can do so by importing the `tokens` member from the root `ape_tokens` namespace:
+This plugin also provides a conversion function for addresses, for example if you want to use a `.swap` function that takes two address inputs which are expected to be tokens (as well as a 3rd argument which is an amount of the 1st token), you can do:
+
+```python
+tx = swapper.swap("BAT", "LINK", "10 BAT", sender=me)
+```
+
+To get information about a token, including its contract address, you can do so by importing the `tokens` member from the root `ape_tokens` namespace:
 
 ```python
 from ape_tokens import tokens
@@ -119,4 +125,23 @@ from ape_tokens import tokens
 bat = tokens["BAT"]
 
 print(bat.address)
+print(bat.symbol())
+```
+
+You can also work with the `tokens` object in an iterable context, such as iterating over a set of tokens in your token list:
+
+```python
+from ape_tokens import tokens
+
+for token in tokens:
+    print(token.balanceOf(me))
+```
+
+Or in a mapping context (similar to using it like a dict):
+
+```python
+assert "BAT" in tokens
+
+if bat := tokens.get("BAT"):
+    print("BAT is in our token list!")
 ```
