@@ -113,7 +113,7 @@ class ImmutableCallHandler(ContractCallHandler):
     _cached_value: Any
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        if not self._cached_value:
+        if not hasattr(self, "_cached_value"):
             self._cached_value = super().__call__(*args, **kwargs)
 
         return self._cached_value
