@@ -26,6 +26,16 @@ def __getattr__(name: str) -> Any:
 
         return tokens
 
+    elif name == "Token":
+        from .types import Token
+
+        return Token
+
+    elif name == "TokenInstance":
+        from .types import TokenInstance
+
+        return TokenInstance
+
     elif name == "TokenAmountConverter":
         from .converters import TokenAmountConverter
 
@@ -42,6 +52,8 @@ def __getattr__(name: str) -> Any:
 
 __all__ = [
     "tokens",
+    "Token",
+    "TokenInstance",
     "TokenAmountConverter",
     "TokenSymbolConverter",
 ]

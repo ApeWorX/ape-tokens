@@ -1,6 +1,6 @@
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
-from ape.contracts.base import ContractCallHandler, ContractInstance
+from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
 from ape.types import ContractType
 from eth_utils import to_checksum_address
 
@@ -146,3 +146,27 @@ class TokenInstance(ContractInstance):
         contract_instance.__class__ = cls
 
         return contract_instance
+
+
+class TokenContainer(ContractContainer):
+    def __init__(self):
+        super().__init__(ERC20)
+
+    def at(self, *args, **kwargs) -> TokenInstance:
+        contract_instance = super().at(*args, **kwargs)
+
+        # NOTE: Patch all of our "immutable" fields with caching call handler subclass
+        for field in ("name", "symbol", "decimals"):
+            method = contract_instance._view_methods_[field]
+            method.__class__ = ImmutableCallHandler
+            method.__doc__ = f"""The {field} of the token (sourced from 'py-tokenlists')"""
+            contract_instance._view_methods_[field] = method
+
+        # NOTE: Inject class for custom repr/class instancing
+        contract_instance.__class__ = TokenInstance
+
+        return cast(TokenInstance, contract_instance)
+
+
+# NOTE: Just ned one singleton
+Token = TokenContainer()
