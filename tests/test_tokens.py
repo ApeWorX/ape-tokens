@@ -24,3 +24,12 @@ def test_immutable():
     # NOTE: the `name` is actually incorrect w/ `CoinGecko` tokenlist
     assert usdc.symbol() == "USDC"
     assert usdc.decimals() == 6
+
+
+def test_getattr():
+    assert tokens.USDC == tokens["USDC"]
+
+
+def test_iter():
+    assert len(tokens) > 0
+    assert next(iter(tokens))

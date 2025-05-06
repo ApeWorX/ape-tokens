@@ -1,23 +1,24 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable, Iterator, Optional
 
+from ape.contracts import ContractInstance
+from ape.exceptions import ConversionError
 from ape.logging import get_logger
+from ape.types import AddressType
 from ape.utils import ManagerAccessMixin, cached_property
 from tokenlists import TokenListManager
 
-from .types import TokenInstance
+from .types import Token, TokenInstance
 
 if TYPE_CHECKING:
-    from ape.contracts import ContractInstance
-
     from .config import TokensConfig
 
 logger = get_logger(__package__)
 
 
-class TokenManager(ManagerAccessMixin, dict):
+class TokenManager(Iterable[TokenInstance]):
     @property
     def config(self) -> "TokensConfig":
-        return self.config_manager.get_config("tokens")
+        return ManagerAccessMixin.config_manager.get_config("tokens")
 
     @cached_property
     def _manager(self) -> TokenListManager:
@@ -44,13 +45,45 @@ class TokenManager(ManagerAccessMixin, dict):
     def __repr__(self) -> str:
         return f"<ape_tokens.TokenManager default='{self._manager.default_tokenlist}'>"
 
-    def __getitem__(self, symbol: str) -> "ContractInstance":
+    def __getitem__(self, symbol_or_address: str) -> TokenInstance:
+        chain_id = ManagerAccessMixin.network_manager.network.chain_id
         try:
-            token_info = self._manager.get_token_info(
-                symbol, chain_id=self.network_manager.network.chain_id
-            )
+            token_info = self._manager.get_token_info(symbol_or_address, chain_id=chain_id)
+            # NOTE: Token is in our token list
+            return TokenInstance.from_tokeninfo(token_info)
 
-        except ValueError as err:
-            raise KeyError(f"Symbol '{symbol}' is not a known token symbol") from err
+        except ValueError:
+            # NOTE: Fallback to loading by address
+            address = ManagerAccessMixin.conversion_manager.convert(symbol_or_address, AddressType)
+            return Token.at(address)
 
-        return TokenInstance.from_tokeninfo(token_info)
+    def get(self, val: str) -> Optional[TokenInstance]:
+        try:
+            return self.__getitem__(val)
+
+        except ConversionError:
+            return None
+
+    def __contains__(self, obj: object) -> bool:
+        if isinstance(obj, str):
+            return self.get(obj) is not None
+
+        elif isinstance(obj, ContractInstance):
+            return self.get(obj.address) is not None
+
+        return False
+
+    def __getattr__(self, symbol: str) -> TokenInstance:
+        try:
+            return self[symbol]
+        except KeyError as e:
+            raise AttributeError(str(e)) from None
+
+    def __len__(self) -> int:
+        tokenlist = self._manager.get_tokenlist()
+        return len(tokenlist.tokens)
+
+    def __iter__(self) -> Iterator[TokenInstance]:
+        chain_id = ManagerAccessMixin.network_manager.network.chain_id
+        for token_info in self._manager.get_tokens(chain_id=chain_id):
+            yield TokenInstance.from_tokeninfo(token_info)
