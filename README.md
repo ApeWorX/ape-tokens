@@ -145,3 +145,21 @@ assert "BAT" in tokens
 if bat := tokens.get("BAT"):
     print("BAT is in our token list!")
 ```
+
+#### Testing
+
+`ape-tokens` also ships a test-token contract for using tokens in your Ape tests.
+
+```python
+from ape_tokens.testing import MockERC20
+
+
+def test_deposit(accounts):
+    owner = accounts[0]
+    
+    # Setup some test tokens.
+    usdc = MockERC20.deploy(owner, "USD Coin", "USDC", 6, sender=owner)
+    weth = MockERC20.deploy(owner, "Wrapped Ether", "WETH", 18, sender=owner)
+    
+    ...
+```
