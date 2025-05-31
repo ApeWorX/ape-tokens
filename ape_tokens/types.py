@@ -1,7 +1,8 @@
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
 from ape.types import ContractType
+from eth_pydantic_types import HexBytes
 from eth_utils import to_checksum_address
 
 if TYPE_CHECKING:
@@ -111,12 +112,19 @@ ERC20 = ContractType.model_validate(
 class ImmutableCallHandler(ContractCallHandler):
     # TODO: Should this move upstream into Ape as `ImmutableCallHandler`?
     _cached_value: Any
+    _cached_raw_value: Optional[HexBytes] = None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        if not hasattr(self, "_cached_value"):
-            self._cached_value = super().__call__(*args, **kwargs)
+        if kwargs.get("decode", True):
+            if not hasattr(self, "_cached_value"):
+                self._cached_value = super().__call__(*args, **kwargs)
 
-        return self._cached_value
+            return self._cached_value
+
+        elif self._cached_raw_value is None:
+            self._cached_raw_value = super().__call__(*args, **kwargs)
+
+        return self._cached_raw_value
 
 
 class TokenInstance(ContractInstance):

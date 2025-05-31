@@ -8,6 +8,7 @@ extras_require = {
         "pytest-xdist",  # Multi-process runner
         "pytest-cov",  # Coverage analyzer plugin
         "hypothesis>=6.2.0,<7.0",  # Strategy-based fuzzer
+        "ape-foundry>=0.8.9,<0.9",
     ],
     "lint": [
         "black>=24.10.0,<25",  # Auto-formatter and linter
