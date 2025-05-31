@@ -1,4 +1,5 @@
 from ape.contracts import ContractInstance
+from eth_pydantic_types import HexBytes
 
 from ape_tokens import tokens
 
@@ -24,6 +25,9 @@ def test_immutable():
     # NOTE: the `name` is actually incorrect w/ `CoinGecko` tokenlist
     assert usdc.symbol() == "USDC"
     assert usdc.decimals() == 6
+    assert usdc.decimals(decode=False) == HexBytes(
+        "0x0000000000000000000000000000000000000000000000000000000000000006"
+    )
 
 
 def test_getattr():
