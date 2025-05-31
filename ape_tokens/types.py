@@ -115,8 +115,7 @@ class ImmutableCallHandler(ContractCallHandler):
     _cached_raw_value: Optional[HexBytes] = None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
-        decode = kwargs.get("decode", False)
-        if decode:
+        if kwargs.get("decode", False):
             if not hasattr(self, "_cached_value"):
                 self._cached_value = super().__call__(*args, **kwargs)
 
