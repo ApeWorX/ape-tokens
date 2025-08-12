@@ -83,7 +83,18 @@ class TokenManager(Iterable[TokenInstance]):
         tokenlist = self._manager.get_tokenlist()
         return len(tokenlist.tokens)
 
-    def __iter__(self) -> Iterator[TokenInstance]:
+    def filter(self, tags: Optional[set[str]] = None) -> Iterator[TokenInstance]:
         chain_id = ManagerAccessMixin.network_manager.network.chain_id
+        tag_ids = {
+            tag_id
+            for tag_id in (self._manager.get_tokenlist().tags or [])
+            if tag_id in (tags or set())
+        }
+
+        # TODO: Move `tags=tags` of `tokenlists.TokenListManager.get_tokens`
         for token_info in self._manager.get_tokens(chain_id=chain_id):
-            yield TokenInstance.from_tokeninfo(token_info)
+            if tags is None or set(token_info.tags) <= tag_ids:
+                yield TokenInstance.from_tokeninfo(token_info)
+
+    def __iter__(self) -> Iterator[TokenInstance]:
+        yield from self.filter()  # NOTE: No filter applied = all tokens
