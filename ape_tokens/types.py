@@ -1,9 +1,11 @@
 from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
-from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
-from ape.types import AddressType, ContractType
 from eth_pydantic_types import HexBytes
 from eth_utils import to_checksum_address
+
+from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
+from ape.types import AddressType, ContractType
+from ape.utils.misc import log_instead_of_fail
 
 if TYPE_CHECKING:
     from tokenlists import TokenInfo
@@ -131,6 +133,7 @@ class ImmutableCallHandler(ContractCallHandler):
 class TokenInstance(ContractInstance):
     # NOTE: Subclass this so that we don't create a breaking interface (still is a ContractInstance)
 
+    @log_instead_of_fail(default="<TokenInstance>")
     def __repr__(self) -> str:
         return f"<{self.symbol()} {self.address}>"
 

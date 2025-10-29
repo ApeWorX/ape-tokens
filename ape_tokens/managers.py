@@ -1,18 +1,21 @@
+from collections.abc import Iterable, Iterator
 from decimal import Decimal
-from typing import TYPE_CHECKING, Iterable, Iterator, Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
+
+from tokenlists import TokenListManager
 
 from ape.contracts import ContractInstance
 from ape.exceptions import ConversionError
 from ape.logging import get_logger
 from ape.types import AddressType
 from ape.utils import ManagerAccessMixin, cached_property
-from tokenlists import TokenListManager
 
 from .types import ConvertsToToken, Token, TokenInstance
 
 if TYPE_CHECKING:
-    from ape.api.address import BaseAddress
     from silverback import SilverbackBot
+
+    from ape.api.address import BaseAddress
 
     from .config import TokensConfig
 

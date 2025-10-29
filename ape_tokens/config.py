@@ -1,8 +1,9 @@
 from typing import Optional
 
-from ape.api import PluginConfig
 from pydantic import BaseModel
 from pydantic_settings import SettingsConfigDict
+
+from ape.api import PluginConfig
 
 
 class ListInfo(BaseModel):

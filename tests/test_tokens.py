@@ -1,6 +1,6 @@
-from ape.contracts import ContractInstance
 from eth_pydantic_types import HexBytes
 
+from ape.contracts import ContractInstance
 from ape_tokens import tokens
 
 
@@ -31,7 +31,7 @@ def test_immutable():
 
 
 def test_getattr():
-    assert tokens.USDC == tokens["USDC"]
+    assert tokens["USDC"] == tokens.USDC
 
 
 def test_iter():
