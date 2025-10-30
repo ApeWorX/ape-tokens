@@ -135,7 +135,14 @@ class TokenInstance(ContractInstance):
 
     @log_instead_of_fail(default="<TokenInstance>")
     def __repr__(self) -> str:
-        return f"<{self.symbol()} {self.address}>"
+        res = f"{self.address}"
+
+        # Avoid making a potentially fatal network request in a repr method.
+        # But, if the symbol is already cached, include it!
+        if symbol := getattr(self.symbol, "_cached_value", None):
+            res = f"{symbol} {res}"
+
+        return f"<{res}>"
 
     @classmethod
     def from_tokeninfo(cls, token_info: "TokenInfo"):
