@@ -1,5 +1,3 @@
-from typing import Optional
-
 from ape.api import PluginConfig
 from pydantic import BaseModel
 from pydantic_settings import SettingsConfigDict
@@ -14,7 +12,7 @@ class ListInfo(BaseModel):
 
 
 class TokensConfig(PluginConfig):
-    default: Optional[str] = None
+    default: str | None = None
     required: list[ListInfo] = []
 
     model_config = SettingsConfigDict(env_prefix="APE_TOKENS_")

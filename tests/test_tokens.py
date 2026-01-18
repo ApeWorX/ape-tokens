@@ -31,7 +31,7 @@ def test_immutable():
 
 
 def test_getattr():
-    assert tokens.USDC == tokens["USDC"]
+    assert tokens["USDC"] == tokens.USDC
 
 
 def test_iter():

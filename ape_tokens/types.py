@@ -1,7 +1,8 @@
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Union, cast
 
 from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
 from ape.types import AddressType, ContractType
+from ape.utils.misc import log_instead_of_fail
 from eth_pydantic_types import HexBytes
 from eth_utils import to_checksum_address
 
@@ -113,7 +114,7 @@ ERC20 = ContractType.model_validate(
 class ImmutableCallHandler(ContractCallHandler):
     # TODO: Should this move upstream into Ape as `ImmutableCallHandler`?
     _cached_value: Any
-    _cached_raw_value: Optional[HexBytes] = None
+    _cached_raw_value: HexBytes | None = None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         if kwargs.get("decode", True):
@@ -131,8 +132,16 @@ class ImmutableCallHandler(ContractCallHandler):
 class TokenInstance(ContractInstance):
     # NOTE: Subclass this so that we don't create a breaking interface (still is a ContractInstance)
 
+    @log_instead_of_fail(default="<TokenInstance>")
     def __repr__(self) -> str:
-        return f"<{self.symbol()} {self.address}>"
+        res = f"{self.address}"
+
+        # Avoid making a potentially fatal network request in a repr method.
+        # But, if the symbol is already cached, include it!
+        if symbol := getattr(self.symbol, "_cached_value", None):
+            res = f"{symbol} {res}"
+
+        return f"<{res}>"
 
     @classmethod
     def from_tokeninfo(cls, token_info: "TokenInfo"):
@@ -181,4 +190,4 @@ class TokenContainer(ContractContainer):
 Token = TokenContainer()
 
 # Type alias for things that can be converted to a token
-ConvertsToToken = Union[TokenInstance, AddressType, str]
+ConvertsToToken = Union[TokenInstance, AddressType, str]  # noqa: UP007

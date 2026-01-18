@@ -16,7 +16,11 @@ TEST_ERC20 = ContractType.model_validate(
                 "type": "constructor",
                 "stateMutability": "nonpayable",
                 "inputs": [
-                    {"name": "initialOwner", "type": "address", "internalType": "address"},
+                    {
+                        "name": "initialOwner",
+                        "type": "address",
+                        "internalType": "address",
+                    },
                     {"name": "name", "type": "string", "internalType": "string"},
                     {"name": "symbol", "type": "string", "internalType": "string"},
                     {"name": "decimals_", "type": "uint8", "internalType": "uint8"},
@@ -89,7 +93,11 @@ TEST_ERC20 = ContractType.model_validate(
                 "name": "InvalidAccountNonce",
                 "inputs": [
                     {"name": "account", "type": "address", "internalType": "address"},
-                    {"name": "currentNonce", "type": "uint256", "internalType": "uint256"},
+                    {
+                        "name": "currentNonce",
+                        "type": "uint256",
+                        "internalType": "uint256",
+                    },
                 ],
             },
             {"type": "error", "name": "InvalidShortString", "inputs": []},
@@ -133,7 +141,12 @@ TEST_ERC20 = ContractType.model_validate(
                 ],
                 "anonymous": False,
             },
-            {"type": "event", "name": "EIP712DomainChanged", "inputs": [], "anonymous": False},
+            {
+                "type": "event",
+                "name": "EIP712DomainChanged",
+                "inputs": [],
+                "anonymous": False,
+            },
             {
                 "type": "event",
                 "name": "OwnershipTransferred",
@@ -157,8 +170,18 @@ TEST_ERC20 = ContractType.model_validate(
                 "type": "event",
                 "name": "Transfer",
                 "inputs": [
-                    {"name": "from", "type": "address", "internalType": "address", "indexed": True},
-                    {"name": "to", "type": "address", "internalType": "address", "indexed": True},
+                    {
+                        "name": "from",
+                        "type": "address",
+                        "internalType": "address",
+                        "indexed": True,
+                    },
+                    {
+                        "name": "to",
+                        "type": "address",
+                        "internalType": "address",
+                        "indexed": True,
+                    },
                     {
                         "name": "value",
                         "type": "uint256",
@@ -219,9 +242,17 @@ TEST_ERC20 = ContractType.model_validate(
                     {"name": "name", "type": "string", "internalType": "string"},
                     {"name": "version", "type": "string", "internalType": "string"},
                     {"name": "chainId", "type": "uint256", "internalType": "uint256"},
-                    {"name": "verifyingContract", "type": "address", "internalType": "address"},
+                    {
+                        "name": "verifyingContract",
+                        "type": "address",
+                        "internalType": "address",
+                    },
                     {"name": "salt", "type": "bytes32", "internalType": "bytes32"},
-                    {"name": "extensions", "type": "uint256[]", "internalType": "uint256[]"},
+                    {
+                        "name": "extensions",
+                        "type": "uint256[]",
+                        "internalType": "uint256[]",
+                    },
                 ],
             },
             {
