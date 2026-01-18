@@ -11,6 +11,7 @@ extras_require = {
         "ape-foundry>=0.8.9,<0.9",
     ],
     "lint": [
+        "silverback",  # For bot-enabling functionality
         "black>=24.10.0,<25",  # Auto-formatter and linter
         "mypy>=1.13.0,<2",  # Static type analyzer
         "types-setuptools",  # Needed for mypy type shed

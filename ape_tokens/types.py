@@ -1,12 +1,13 @@
-from typing import TYPE_CHECKING, Any, Optional, cast
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
-from ape.types import ContractType
+from ape.types import AddressType, ContractType
 from eth_pydantic_types import HexBytes
 from eth_utils import to_checksum_address
 
 if TYPE_CHECKING:
     from tokenlists import TokenInfo
+
 
 ERC20 = ContractType.model_validate(
     {
@@ -178,3 +179,6 @@ class TokenContainer(ContractContainer):
 
 # NOTE: Just ned one singleton
 Token = TokenContainer()
+
+# Type alias for things that can be converted to a token
+ConvertsToToken = Union[TokenInstance, AddressType, str]
