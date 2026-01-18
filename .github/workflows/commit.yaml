@@ -17,4 +17,4 @@ jobs:
           uses: astral-sh/setup-uv@v7
 
         - name: Check commit history
-          run: uvx commitlint --from-hash $(git rev-list --all --reverse | head -1) --to-hash HEAD
+          run: uvx commitlint --from-hash HEAD~1
