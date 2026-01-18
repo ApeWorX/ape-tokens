@@ -1,6 +1,6 @@
+from ape.contracts import ContractInstance
 from eth_pydantic_types import HexBytes
 
-from ape.contracts import ContractInstance
 from ape_tokens import tokens
 
 

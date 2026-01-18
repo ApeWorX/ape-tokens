@@ -1,21 +1,19 @@
 from collections.abc import Iterable, Iterator
 from decimal import Decimal
-from typing import TYPE_CHECKING, Optional, cast
-
-from tokenlists import TokenListManager
+from typing import TYPE_CHECKING, cast
 
 from ape.contracts import ContractInstance
 from ape.exceptions import ConversionError
 from ape.logging import get_logger
 from ape.types import AddressType
 from ape.utils import ManagerAccessMixin, cached_property
+from tokenlists import TokenListManager
 
 from .types import ConvertsToToken, Token, TokenInstance
 
 if TYPE_CHECKING:
-    from silverback import SilverbackBot
-
     from ape.api.address import BaseAddress
+    from silverback import SilverbackBot
 
     from .config import TokensConfig
 
@@ -64,7 +62,7 @@ class TokenManager(Iterable[TokenInstance]):
             address = ManagerAccessMixin.conversion_manager.convert(symbol_or_address, AddressType)
             return Token.at(address)
 
-    def get(self, val: str) -> Optional[TokenInstance]:
+    def get(self, val: str) -> TokenInstance | None:
         try:
             return self.__getitem__(val)
 
@@ -90,7 +88,7 @@ class TokenManager(Iterable[TokenInstance]):
         tokenlist = self._manager.get_tokenlist()
         return len(tokenlist.tokens)
 
-    def filter(self, tags: Optional[set[str]] = None) -> Iterator[TokenInstance]:
+    def filter(self, tags: set[str] | None = None) -> Iterator[TokenInstance]:
         chain_id = ManagerAccessMixin.network_manager.network.chain_id
         tag_ids = {
             tag_id
@@ -158,7 +156,7 @@ class TokenBalances(ManagerAccessMixin):
                 for address in addresses:
                     call.add(self.token.balanceOf, address)
 
-                for address, raw_balance in zip(addresses, call()):
+                for address, raw_balance in zip(addresses, call(), strict=False):
                     self._balances[address] = raw_balance / Decimal(10 ** self.token.decimals())
 
             else:  # NOTE: Just call directly if only 1
@@ -176,7 +174,6 @@ class TokenBalances(ManagerAccessMixin):
         # TODO: Once Ape supports OR filter args, use that to reduce to only O(1)
 
         def create_acquisition(address, handler_name):
-
             async def balance_acquired(log):
                 amount = Decimal(log.amount) / Decimal(10 ** self.token.decimals())
 
@@ -197,7 +194,6 @@ class TokenBalances(ManagerAccessMixin):
             )(balance_acquired)
 
         def create_disposition(address, handler_name):
-
             async def balance_disposed(log):
                 amount = Decimal(log.amount) / Decimal(10 ** self.token.decimals())
 
@@ -218,12 +214,8 @@ class TokenBalances(ManagerAccessMixin):
             )(balance_disposed)
 
         for idx, address in enumerate(addresses):
-            create_acquisition(
-                address, f"tokens:{self.token.symbol()}:acquisition{idx}"
-            )
-            create_disposition(
-                address, f"tokens:{self.token.symbol()}:disposition{idx}"
-            )
+            create_acquisition(address, f"tokens:{self.token.symbol()}:acquisition{idx}")
+            create_disposition(address, f"tokens:{self.token.symbol()}:disposition{idx}")
 
 
 class BalanceManager(ManagerAccessMixin):
@@ -289,7 +281,6 @@ class BalanceManager(ManagerAccessMixin):
         tokens given in the constructor args. It is recommended to limit the number of tokens being
         monitored to a reasonable level (2 event log handlers per token are installed in `bot`).
         ```
-
         """
 
         if tokens:

@@ -2,13 +2,12 @@ from collections.abc import Iterator
 from decimal import Decimal
 from typing import Any
 
-from tokenlists import TokenInfo, TokenListManager
-
 from ape.api import ConverterAPI
 from ape.exceptions import ConversionError, ProviderNotConnectedError
 from ape.logging import logger
 from ape.types import AddressType
 from ape.utils import cached_property
+from tokenlists import TokenInfo, TokenListManager
 
 
 class _BaseTokenConverter(ConverterAPI):

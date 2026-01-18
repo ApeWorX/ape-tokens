@@ -1,6 +1,5 @@
-from ethpm_types import ContractType
-
 from ape.contracts import ContractContainer
+from ethpm_types import ContractType
 
 TEST_ERC20 = ContractType.model_validate(
     {

@@ -30,7 +30,6 @@ async def check(balance: Decimal):
 
 
 if bot.signer:
-
     # NOTE: Will never happen in practice, but a good demo for how to use balance metrics
     @bot.on_metric(f"{SYMBOL}/{ADDRESS}", lt=Decimal(100))
     async def refill(balance: Decimal):

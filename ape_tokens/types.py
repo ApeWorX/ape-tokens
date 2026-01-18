@@ -1,11 +1,10 @@
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
-
-from eth_pydantic_types import HexBytes
-from eth_utils import to_checksum_address
+from typing import TYPE_CHECKING, Any, Union, cast
 
 from ape.contracts.base import ContractCallHandler, ContractContainer, ContractInstance
 from ape.types import AddressType, ContractType
 from ape.utils.misc import log_instead_of_fail
+from eth_pydantic_types import HexBytes
+from eth_utils import to_checksum_address
 
 if TYPE_CHECKING:
     from tokenlists import TokenInfo
@@ -115,7 +114,7 @@ ERC20 = ContractType.model_validate(
 class ImmutableCallHandler(ContractCallHandler):
     # TODO: Should this move upstream into Ape as `ImmutableCallHandler`?
     _cached_value: Any
-    _cached_raw_value: Optional[HexBytes] = None
+    _cached_raw_value: HexBytes | None = None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         if kwargs.get("decode", True):
@@ -191,4 +190,4 @@ class TokenContainer(ContractContainer):
 Token = TokenContainer()
 
 # Type alias for things that can be converted to a token
-ConvertsToToken = Union[TokenInstance, AddressType, str]
+ConvertsToToken = Union[TokenInstance, AddressType, str]  # noqa: UP007
