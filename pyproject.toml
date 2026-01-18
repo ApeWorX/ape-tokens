@@ -215,3 +215,4 @@ docstring-code-format = true
 
 [tool.mdformat]
 number = true
+exclude = [".venv/"]
