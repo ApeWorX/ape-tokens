@@ -174,7 +174,8 @@ class TokenBalances(ManagerAccessMixin):
         # This improves efficiency by leveraging event filtering
         # NOTE: creates O(A) event filters, for O(T * A) total, but reduces total RPC sub events
         # TODO: Once Ape supports OR filter args, use that to reduce to only O(1)
-        for idx, address in enumerate(addresses):
+
+        def create_acquisition(address, handler_name):
 
             async def balance_acquired(log):
                 amount = Decimal(log.amount) / Decimal(10 ** self.token.decimals())
@@ -188,12 +189,14 @@ class TokenBalances(ManagerAccessMixin):
                 return {f"{self.token.symbol()}/{address}": self._balances[address]}
 
             # NOTE: Namespace the function to avoid conflicts, requires globally-unique name
-            balance_acquired.__name__ = f"tokens:{self.token.symbol()}:acquisition{idx}"
+            balance_acquired.__name__ = handler_name
             bot.broker_task_decorator(
                 TaskType.EVENT_LOG,
                 container=self.token.Transfer,
                 filter_args=dict(receiver=address),
             )(balance_acquired)
+
+        def create_disposition(address, handler_name):
 
             async def balance_disposed(log):
                 amount = Decimal(log.amount) / Decimal(10 ** self.token.decimals())
@@ -207,12 +210,20 @@ class TokenBalances(ManagerAccessMixin):
                 return {f"{self.token.symbol()}/{address}": self._balances[address]}
 
             # NOTE: Namespace the function to avoid conflicts, requires globally-unique name
-            balance_disposed.__name__ = f"tokens:{self.token.symbol()}:disposition{idx}"
+            balance_disposed.__name__ = handler_name
             bot.broker_task_decorator(
                 TaskType.EVENT_LOG,
                 container=self.token.Transfer,
                 filter_args=dict(sender=address),
             )(balance_disposed)
+
+        for idx, address in enumerate(addresses):
+            create_acquisition(
+                address, f"tokens:{self.token.symbol()}:acquisition{idx}"
+            )
+            create_disposition(
+                address, f"tokens:{self.token.symbol()}:disposition{idx}"
+            )
 
 
 class BalanceManager(ManagerAccessMixin):
