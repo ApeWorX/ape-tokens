@@ -9,12 +9,12 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - uses: actions/checkout@v6
+        - uses: actions/checkout@v4
           with:
               fetch-depth: 0
 
         - name: Install uv
-          uses: astral-sh/setup-uv@v7
+          uses: astral-sh/setup-uv@v5
 
         - name: Check commit history
-          run: uvx commitlint --from-hash $(git rev-list --all --reverse | head -1)
+          run: uvx commitlint --from-hash $(git rev-list --all --reverse | head -1) --to-hash HEAD
