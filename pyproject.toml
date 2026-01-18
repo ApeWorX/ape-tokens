@@ -67,7 +67,7 @@ release = [
     "twine",
 ]
 dev = [
-    "commitizen",
+    "commitlint",
     "pre-commit",
     "pytest-watch",
     "IPython",
