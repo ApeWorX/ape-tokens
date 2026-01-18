@@ -1,9 +1,7 @@
-import asyncio
 import os
 from decimal import Decimal
 
 from silverback import SilverbackBot
-from silverback.exceptions import CircuitBreaker
 
 from ape_tokens import BalanceManager, tokens
 
@@ -23,7 +21,14 @@ balances.monitor(bot, ADDRESS)  # NOTE: can monitor more accounts by adding more
 
 @bot.on_metric(f"{SYMBOL}/{ADDRESS}")
 async def check(balance: Decimal):
-    await asyncio.sleep(2)  # NOTE: Add some de-bounce
+    assert (
+        diff := balance - (TOKEN.balanceOf(ADDRESS) / Decimal(10 ** TOKEN.decimals()))
+    ) == 0, f"Cache mismatches by {diff} {SYMBOL}"
 
-    if balance != (TOKEN.balanceOf(ADDRESS) / Decimal(10 ** TOKEN.decimals())):
-        raise CircuitBreaker("Balances are off!")
+
+if bot.signer:
+
+    # NOTE: Will never happen in practice, but a good demo for how to use balance metrics
+    @bot.on_metric(f"{SYMBOL}/{ADDRESS}", lt=Decimal(100))
+    async def refill(balance: Decimal):
+        TOKEN.transfer(ADDRESS, f"{100 - balance} {SYMBOL}", sender=bot.signer)

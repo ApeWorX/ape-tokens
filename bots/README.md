@@ -1,46 +1,38 @@
 # Example Bots
 
-This directory contains example Silverback bots demonstrating `ape-tokens` features.
+This directory contains example Silverback bots demonstrating `ape-tokens` integrations.
 
 ## Balance Watcher Example
 
-**File:** `watcher-example.py`
+**File:** `watcher.py`
 
-A demonstration bot that shows how to use the `BalanceWatcher` class to monitor token balances in real-time with Silverback.
+A demonstration bot that shows how to use the `BalanceManager.monitor` function to monitor token balances in real-time using Silverback.
 
 ### Features
 
-- **Real-time Balance Tracking**: Monitors USDC, DAI, and WETH balances for the bot's signer address
-- **Balance Verification**: Includes a circuit breaker that verifies cached balances match on-chain balances
-- **Low Balance Alerts**: Triggers notifications when balances fall below specified thresholds:
-  - USDC < 100
-  - DAI < 50
-  - WETH < 0.1
-- **Startup Logging**: Displays initial balances when the bot starts
+- **Real-time Tracking**: Monitor USDT transfers to and from Kraken's hot wallet on Ethereum mainnet
+- **Balance Verification**: Shows cached balances match on-chain balances
+- **Balance Threshold Action**: Sends some tokens when balance fall below a specified threshold
 
 ### How It Works
 
-The bot uses `BalanceWatcher` to monitor Transfer events and maintain an in-memory cache of token balances. Each time a transfer occurs, the watcher:
+The bot uses `BalanceManager.monitor` to monitor ERC20 Transfer events and maintains an in-memory cache of token balances.
+Each time a Transfer occurs, the monitoring:
 
-1. Updates the cached balance
-2. Returns a metrics dictionary in the format `{f"{symbol}/{address}": balance}`
-3. Triggers any `@bot.on_metric()` handlers that match the metric key
-
-The circuit breaker handler verifies data integrity by comparing cached balances against on-chain balances, raising a `CircuitBreaker` exception if there's a mismatch.
+1. Updates internal cached balance for the matching address
+2. Returns metrics labeled using the format `f"{symbol}/{address}"`
 
 ### Running the Bot
 
 ```bash
-# Make sure you have silverback and ape-tokens installed
-pip install silverback ape-tokens
-
-# Run the bot (requires a configured network and signer)
-silverback run watcher-example:bot --network ethereum:mainnet:alchemy
+uvx --with ape-tokens silverback watcher --network :mainnet
 ```
 
 ### Customization
 
-You can customize this bot by:
+Fork this bot and implement your own ideas!
+
+Try:
 
 - Changing which tokens to monitor in the `watcher.install()` call
 - Adjusting balance thresholds in the `@bot.on_metric()` decorators
