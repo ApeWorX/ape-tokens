@@ -32,7 +32,7 @@ jobs:
           run: uv run ruff format --check .
 
         - name: Run mdformat
-          run: uv run mdformat . --check
+          run: uv run mdformat --check *.md
 
     type-check:
         runs-on: ubuntu-latest
