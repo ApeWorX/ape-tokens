@@ -19,7 +19,7 @@ jobs:
         - name: Install uv
           uses: astral-sh/setup-uv@v7
           with:
-            python-version: "3.12"
+            python-version: "3.10"
 
         - name: Install Dependencies
           run: uv sync --group lint
@@ -42,7 +42,7 @@ jobs:
         - name: Install uv
           uses: astral-sh/setup-uv@v7
           with:
-            python-version: "3.12"
+            python-version: "3.10"
 
         - name: Install Dependencies
           run: uv sync --group lint --group test
