@@ -21,17 +21,14 @@ jobs:
           with:
             python-version: "3.10"
 
-        - name: Install Dependencies
-          run: uv sync --group lint
-
         - name: Run Ruff Lint
-          run: uv run ruff check .
+          run: uv run --group lint ruff check .
 
         - name: Run Ruff Format
-          run: uv run ruff format --check .
+          run: uv run --group lint ruff format --check .
 
         - name: Run mdformat
-          run: uv run mdformat --check *.md
+          run: uv run --group lint mdformat --check *.md
 
     type-check:
         runs-on: ubuntu-latest
@@ -44,11 +41,8 @@ jobs:
           with:
             python-version: "3.10"
 
-        - name: Install Dependencies
-          run: uv sync --group lint --group test
-
         - name: Run MyPy
-          run: uv run mypy .
+          run: uv run --group lint --group test mypy .
 
     functional:
         runs-on: ${{ matrix.os }}
@@ -72,11 +66,8 @@ jobs:
           with:
             python-version: ${{ matrix.python-version }}
 
-        - name: Install Dependencies
-          run: uv sync --group test
-
         - name: Run Tests
-          run: uv run ape test -m "not fuzzing" -n 0 -s --cov
+          run: uv run --group test ape test -m "not fuzzing" -n 0 -s --cov
 
 # NOTE: uncomment this block after you've marked tests with @pytest.mark.fuzzing
 #    fuzzing:
@@ -93,8 +84,5 @@ jobs:
 #          with:
 #            python-version: "3.12"
 #
-#        - name: Install Dependencies
-#          run: uv sync --group test
-#
 #        - name: Run Tests
-#          run: uv run ape test -m "fuzzing" --no-cov -s
+#          run: uv run --group test ape test -m "fuzzing" --no-cov -s
