@@ -38,10 +38,7 @@ ape_tokens = "ape_tokens._cli:cli"
 
 [dependency-groups]
 test = [
-    "pytest>=6.0",
-    "pytest-xdist",
     "pytest-cov",
-    "hypothesis>=6.2.0,<7.0",
     "ape-foundry>=0.8.9,<0.9",
 ]
 lint = [
@@ -54,27 +51,19 @@ lint = [
     "mdformat-frontmatter>=0.4.1",
     "mdformat-pyproject>=0.0.2",
 ]
-doc = [
-    "Sphinx>=6.1.3,<7",
-    "sphinx_rtd_theme>=1.2.0,<2",
-    "towncrier>=19.2.0,<20",
-]
-release = [
-    "setuptools>=75.6.0",
-    "setuptools-scm",
-    "wheel",
-    "twine",
+docs = [
+    "sphinx-ape",
 ]
 dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "docs" },
     "commitlint",
     "pre-commit",
+    "pytest-xdist",
     "pytest-watch",
     "IPython",
     "ipdb",
-    { include-group = "test" },
-    { include-group = "lint" },
-    { include-group = "doc" },
-    { include-group = "release" },
 ]
 
 [tool.setuptools]
