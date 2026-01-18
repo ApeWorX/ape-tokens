@@ -215,3 +215,16 @@ docstring-code-format = true
 
 [tool.mdformat]
 number = true
+
+[[tool.ape.plugins]]
+name = "foundry"
+
+[tool.ape.tokens]
+default = "CoinGecko"
+
+[[tool.ape.tokens.required]]
+name = "CoinGecko"
+uri = "https://tokens.coingecko.com/uniswap/all.json"
+
+[tool.ape.ethereum]
+default_network = "mainnet-fork"
