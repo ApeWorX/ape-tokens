@@ -19,14 +19,15 @@ balances.monitor(bot, ADDRESS)  # NOTE: can monitor more accounts by adding more
 # NOTE: `balances.monitor(bot)` will just track the bot's signer address
 
 
-@bot.on_metric(f"{SYMBOL}/{ADDRESS}")
-async def check(balance: Decimal):
+@bot.cron("* * * * *")
+async def check(_):
     # NOTE: Metric value may temporarily mismatch on-chain if multiple balance updates occur in
     #       the same block, so take care to double-check the answer if it is critical to operation
     #       see: https://github.com/ApeWorX/silverback/issues/290
+    cached_balance = balances[TOKEN][ADDRESS]
     onchain_balance = TOKEN.balanceOf(ADDRESS) / Decimal(10 ** TOKEN.decimals())
 
-    assert not (diff := balance - onchain_balance), f"Cache mismatched by {diff} {SYMBOL}"
+    assert not (diff := cached_balance - onchain_balance), f"Cache mismatched by {diff} {SYMBOL}"
 
 
 if bot.signer:
