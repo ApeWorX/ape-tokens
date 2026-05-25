@@ -60,6 +60,8 @@ jobs:
 
         - name: Install Foundry
           uses: foundry-rs/foundry-toolchain@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Install uv
           uses: astral-sh/setup-uv@v7
