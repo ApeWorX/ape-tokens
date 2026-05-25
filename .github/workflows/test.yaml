@@ -60,7 +60,7 @@ jobs:
 
         - name: Install Foundry
           uses: foundry-rs/foundry-toolchain@v1
-          env:
+          with:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Install uv
