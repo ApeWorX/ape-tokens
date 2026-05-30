@@ -26,8 +26,7 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
     "eth-ape>=0.8.1,<0.9",
-    # TODO: Upgrade to v0.2+ in Ape v0.9 series
-    "tokenlists>=0.1.7,<0.2",
+    "tokenlists>=0.2,<1",
 ]
 
 [project.urls]
