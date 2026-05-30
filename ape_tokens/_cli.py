@@ -1,3 +1,3 @@
-from tokenlists._cli import cli
+from tokenlists.__main__ import cli
 
 __all__ = ["cli"]
