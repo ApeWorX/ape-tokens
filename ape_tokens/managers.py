@@ -40,10 +40,13 @@ class TokenManager(Iterable[TokenInstance]):
                         f"requirement '{required_tokenlist.name}'. This could be problematic."
                     )
 
-        # TODO: Allow sourcing from multiple lists in `TokenListManager`,
-        #       and set priority here instead
-        if default_selected := self.config.default:
-            manager.set_default_tokenlist(default_selected)
+        if self.config.default:
+            logger.warning(
+                "Config item [ape.tokens.default] not supported and will be removed in v1."
+            )
+
+        if tokenlist_order := self.config.order:
+            manager.tokenlist_order = tokenlist_order
 
         return manager
 

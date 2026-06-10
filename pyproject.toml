@@ -209,7 +209,7 @@ number = true
 name = "foundry"
 
 [tool.ape.tokens]
-default = "CoinGecko"
+order = ["CoinGecko"]
 
 [[tool.ape.tokens.required]]
 name = "CoinGecko"

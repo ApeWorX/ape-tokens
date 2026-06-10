@@ -12,7 +12,8 @@ class ListInfo(BaseModel):
 
 
 class TokensConfig(PluginConfig):
-    default: str | None = None
+    default: str | None = None  # TODO: Remove in v1.0
     required: list[ListInfo] = []
+    order: list[str] | None = None
 
     model_config = SettingsConfigDict(env_prefix="APE_TOKENS_")

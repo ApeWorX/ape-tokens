@@ -56,7 +56,8 @@ You can configure this plugin (and by extension, configure `py-tokenlists`) usin
 ```yaml
 # ape-config.yaml
 tokens:
-  default: "My Default List"
+  order:
+    - "My Default List"
   required:
     - name: "My Default List"
       uri: "http://example.com/tokenlist.json"
@@ -65,11 +66,15 @@ tokens:
 You can also configure this plugin via Environment Variable:
 
 ```sh
-APE_TOKENS_DEFAULT="My Default List"
+APE_TOKENS_ORDER="My Default List"
 APE_TOKENS_REQUIRED='[{"name":"My Default List","uri":"http://example.com/tokenlist.json"}]'
 ```
 
 Configuration like this may be useful for operating in a cloud environment
+
+```{note}
+Specifying the order via Ape config key overrides the configuration used by `py-tokenlists`
+```
 
 ### Ape Console Extras
 
@@ -157,10 +162,10 @@ from ape_tokens.testing import MockERC20
 
 def test_deposit(accounts):
     owner = accounts[0]
-    
+
     # Setup some test tokens.
     usdc = MockERC20.deploy(owner, "USD Coin", "USDC", 6, sender=owner)
     weth = MockERC20.deploy(owner, "Wrapped Ether", "WETH", 18, sender=owner)
-    
+
     ...
 ```
