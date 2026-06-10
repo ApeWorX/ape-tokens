@@ -88,8 +88,7 @@ class TokenManager(Iterable[TokenInstance]):
             raise AttributeError(str(e)) from None
 
     def __len__(self) -> int:
-        tokenlist = self._manager.get_tokenlist()
-        return len(tokenlist.tokens)
+        return sum(len(tl.tokens) for tl in self._manager.installed_tokenlists.values())
 
     def filter(self, tags: set[str] | None = None) -> Iterator[TokenInstance]:
         chain_id = ManagerAccessMixin.network_manager.network.chain_id
