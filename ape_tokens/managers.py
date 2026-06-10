@@ -40,10 +40,13 @@ class TokenManager(Iterable[TokenInstance]):
                         f"requirement '{required_tokenlist.name}'. This could be problematic."
                     )
 
-        # TODO: Allow sourcing from multiple lists in `TokenListManager`,
-        #       and set priority here instead
-        if default_selected := self.config.default:
-            manager.set_default_tokenlist(default_selected)
+        if self.config.default:
+            logger.warning(
+                "Config item [ape.tokens.default] not supported and will be removed in v1."
+            )
+
+        if tokenlist_order := self.config.order:
+            manager.tokenlist_order = tokenlist_order
 
         return manager
 
@@ -85,20 +88,14 @@ class TokenManager(Iterable[TokenInstance]):
             raise AttributeError(str(e)) from None
 
     def __len__(self) -> int:
-        tokenlist = self._manager.get_tokenlist()
-        return len(tokenlist.tokens)
+        return sum(len(tl.tokens) for tl in self._manager.installed_tokenlists.values())
 
     def filter(self, tags: set[str] | None = None) -> Iterator[TokenInstance]:
         chain_id = ManagerAccessMixin.network_manager.network.chain_id
-        tag_ids = {
-            tag_id
-            for tag_id in (self._manager.get_tokenlist().tags or [])
-            if tag_id in (tags or set())
-        }
 
         # TODO: Move `tags=tags` of `tokenlists.TokenListManager.get_tokens`
         for token_info in self._manager.get_tokens(chain_id=chain_id):
-            if tags is None or set(token_info.tags) <= tag_ids:
+            if tags is None or (set(token_info.tags or {}) & tags):
                 yield TokenInstance.from_tokeninfo(token_info)
 
     def __iter__(self) -> Iterator[TokenInstance]:
