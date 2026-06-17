@@ -154,7 +154,11 @@ class TokenInstance(ContractInstance):
 
         # NOTE: Patch all of our "immutable" fields with caching call handler subclass
         for field in ("name", "symbol", "decimals"):
-            method = contract_instance._view_methods_[field]
+            try:
+                method = contract_instance._view_methods_[field]
+            except KeyError:
+                continue
+
             method.__class__ = ImmutableCallHandler
             method.__doc__ = f"""The {field} of the token (sourced from 'py-tokenlists')"""
             method._cached_value = getattr(token_info, field)
@@ -175,7 +179,11 @@ class TokenContainer(ContractContainer):
 
         # NOTE: Patch all of our "immutable" fields with caching call handler subclass
         for field in ("name", "symbol", "decimals"):
-            method = contract_instance._view_methods_[field]
+            try:
+                method = contract_instance._view_methods_[field]
+            except KeyError:
+                continue
+
             method.__class__ = ImmutableCallHandler
             method.__doc__ = f"""The {field} of the token (sourced from 'py-tokenlists')"""
             contract_instance._view_methods_[field] = method
